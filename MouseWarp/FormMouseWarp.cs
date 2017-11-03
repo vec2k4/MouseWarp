@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
-using System.Resources;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -16,12 +16,16 @@ namespace MouseWarp
         {
             InitializeComponent();
 
-            var resourceManager = new ResourceManager(typeof(FormMouseWarp));
-            var bmp = (Bitmap)resourceManager.GetObject("Icon");
-            var handle = bmp.GetHicon();
+            var assembly = Assembly.GetExecutingAssembly();
+            var pngResourceName = assembly.GetManifestResourceNames().FirstOrDefault(s => s.Contains(".png"));
+            var handle = default(IntPtr);
+            using (var stream = assembly.GetManifestResourceStream(pngResourceName))
+            {
+                var image = (Bitmap)Image.FromStream(stream);
+                handle = image.GetHicon();
+            }
 
             TrayIcon.Icon = Icon.FromHandle(handle);
-
             DestroyIcon(handle);
 
             ShowInTaskbar = false;

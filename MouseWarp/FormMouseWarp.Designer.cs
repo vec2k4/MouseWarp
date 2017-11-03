@@ -34,7 +34,7 @@
             // 
             // TrayIcon
             // 
-            this.TrayIcon.Text = "notifyIcon1";
+            this.TrayIcon.Text = "Doubleclick to exit";
             this.TrayIcon.Visible = true;
             this.TrayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseDoubleClick);
             // 
